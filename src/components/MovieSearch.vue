@@ -5,22 +5,17 @@
 </template>
 
 <script>
-
 export default {
-  name: 'MovieSerach',
- 
+  name: "MovieSerach",
 
-    methods: {
-        searchTermUpdated() {
-            let value = event.target.value
-            this.$emit("searchTermUpdated", value)
-        }
+  methods: {
+    searchTermUpdated() {
+      let value = event.target.value;
+      this.$emit("searchTermUpdated", value);
     }
-}
-
-
+  }
+};
 </script>
 
 <style>
-
 </style>
