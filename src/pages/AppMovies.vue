@@ -1,14 +1,27 @@
 <template>
   <div id="AppMovies">
-      <button @click="sortArray('asc')">Sort by Name asc</button>
-      <button @click="sortArray('desc')">Sort by Name desc</button>
+ 
     <MovieSearch @searchTermUpdated="searched"> </MovieSearch>
+
+    <hr>
+    <div>
+      <small>Sort by name: </small>
+      <button class="btn btn-outline-info btn-sm" @click="sortAsc()"><i class="fas fa-sort-up"> </i></button>
+      <button class="btn btn-outline-info btn-sm" @click="sortDesc()"><i class="fas fa-sort-down"></i></button>
+      <br>
+      <br>
+      <button class="btn btn-outline-primary btn-sm" @click="selectAll">Select All</button>
+      <button class="btn btn-outline-danger btn-sm" @click="deselectAll">Deselect All</button>
+      <br> 
+    </div>
     <ul  v-for="movie in fillterMovie" :key='movie.id'>
         <MovieRow :movie="movie" @selected="addMovieToSelected" :class="{'colorRed': find(movie.id)}" ></MovieRow>
     </ul>
     <p v-if="fillterMovie.length === 0"> {{error}} </p>
-    <button @click="selectAll">Select All</button>
-    <button @click="deselectAll">Deselect All</button>
+    <small>Page {{pageCount}} of {{numbeOfPages}}</small><br>
+    <button class="btn btn-outline-info  btn-sm" @click='prevPage' :disabled='pageCount <= 0'><i class="fas fa-angle-left"></i></button>
+    <button class="btn btn-outline-info  btn-sm" @click='nextPage' :disabled='pageCount >= numbeOfPages'><i class="fas fa-angle-right"></i></button>
+   
   </div>
 </template>
 
@@ -27,9 +40,12 @@ export default {
     return {
       movies: [],
       selectedMovies: [],
-      error: "no movies",
+      error: "No movies",
       search: "",
-      selectd: false
+      selectd: false,
+      sortValue: "des",
+      pageCount: 0,
+      sizeOfPage: 3
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -64,20 +80,33 @@ export default {
     deselectAll() {
       this.selectedMovies = [];
     },
-    sortArray(value) {
-      if (value === "asc") {
-        return this.movies.sort((a, b) => a.title > b.title);
-      } else {
-        return this.movies.sort((a, b) => a.title < b.title);
-      }
+    sortAsc() {
+      return this.movies.sort((a, b) => a.title > b.title);
+    },
+    sortDesc() {
+      return this.movies.sort((a, b) => a.title < b.title);
+    },
+
+    nextPage() {
+      this.pageCount++;
+    },
+    prevPage() {
+      this.pageCount--;
     }
   },
 
   computed: {
     fillterMovie() {
-      return this.movies.filter(movie => {
+      let listPaginat = this.movies.filter(movie => {
         return movie.title.toLowerCase().match(this.search.toLowerCase());
       });
+      const pageStart = this.pageCount * this.sizeOfPage;
+      const pageEnd = pageStart + this.sizeOfPage;
+      return listPaginat.slice(pageStart, pageEnd);
+      return listPaginat;
+    },
+    numbeOfPages() {
+      return Math.floor(this.movies.length / this.sizeOfPage);
     }
   }
 };
@@ -86,5 +115,8 @@ export default {
 <style>
 .colorRed {
   background-color: lightblue;
+}
+button {
+  margin-right: 2px;
 }
 </style>

@@ -1,12 +1,13 @@
 <template>
   <div id="MovieRow">
-       <div >
-        <h5>Title: {{movie.title}}</h5> 
+       <div class='movie-card'>
+        <h5>Title: <h3>{{movie.title}}</h3></h5> 
         <p>Director: {{movie.director}}</p>
         <img :src="movie.imageUrl" alt="Image">
         <p>Release date: {{movie.releaseDate}}</p>
         <p>Gener: {{movie.genre}}</p>
-        <button  @click='select'>Select</button>
+        <button class="btn btn-outline-success btn-sm" @click='select'>Select</button>
+        
         </div>
   </div>
 </template>
@@ -35,6 +36,8 @@ export default {
   }
 };
 </script>
-
-<style>
+<style scoped>
+.movie-card {
+  padding: 10px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="MovieRow">
-      <input type="text" @input="searchTermUpdated()">
+      <input type="text" @input="searchTermUpdated()" placeholder="Serach...">
   </div>
 </template>
 
@@ -18,4 +18,7 @@ export default {
 </script>
 
 <style>
+#MovieRow {
+  padding-top: 20px;
+}
 </style>
