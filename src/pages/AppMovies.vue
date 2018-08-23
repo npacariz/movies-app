@@ -1,26 +1,25 @@
 <template>
   <div id="AppMovies">
- 
     <MovieSearch @searchTermUpdated="searched"> </MovieSearch>
-
     <hr>
     <div>
       <small>Sort by name: </small>
-      <button class="btn btn-outline-info btn-sm" @click="sortAsc()"><i class="fas fa-sort-up"> </i></button>
-      <button class="btn btn-outline-info btn-sm" @click="sortDesc()"><i class="fas fa-sort-down"></i></button>
+      <button class="btn btn-outline-info btn-sm" @click="sort('asc')"><i class="fas fa-sort-up"> </i></button>
+      <button class="btn btn-outline-info btn-sm" @click="sort('des')"><i class="fas fa-sort-down"></i></button>
       <br>
       <br>
       <button class="btn btn-outline-primary btn-sm" @click="selectAll">Select All</button>
       <button class="btn btn-outline-danger btn-sm" @click="deselectAll">Deselect All</button>
       <br> 
     </div>
+    <small>Selected movies {{selectedMovies.length}}</small>
     <ul  v-for="movie in fillterMovie" :key='movie.id'>
         <MovieRow :movie="movie" @selected="addMovieToSelected" :class="{'colorRed': find(movie.id)}" ></MovieRow>
     </ul>
     <p v-if="fillterMovie.length === 0"> {{error}} </p>
-    <small>Page {{pageCount}} of {{numbeOfPages}}</small><br>
-    <button class="btn btn-outline-info  btn-sm" @click='prevPage' :disabled='pageCount <= 0'><i class="fas fa-angle-left"></i></button>
-    <button class="btn btn-outline-info  btn-sm" @click='nextPage' :disabled='pageCount >= numbeOfPages'><i class="fas fa-angle-right"></i></button>
+    <small>Page {{pageCount +1 }} of {{numbeOfPages }}</small><br>
+    <button class="btn btn-outline-info  btn-sm" @click="pageMove('-')" :disabled='pageCount < 1'><i class="fas fa-angle-left"></i></button>
+    <button class="btn btn-outline-info  btn-sm" @click="pageMove('+')" :disabled='pageCount >= numbeOfPages -1'><i class="fas fa-angle-right"></i></button>
    
   </div>
 </template>
@@ -43,7 +42,6 @@ export default {
       error: "No movies",
       search: "",
       selectd: false,
-      sortValue: "des",
       pageCount: 0,
       sizeOfPage: 3
     };
@@ -80,18 +78,18 @@ export default {
     deselectAll() {
       this.selectedMovies = [];
     },
-    sortAsc() {
-      return this.movies.sort((a, b) => a.title > b.title);
-    },
-    sortDesc() {
-      return this.movies.sort((a, b) => a.title < b.title);
+    sort(value) {
+      let valueOfSearch = 1;
+      value === "asc" ? (valueOfSearch = 1) : (valueOfSearch = -1);
+      this.movies = this.movies.sort((a, b) => {
+        return a.title.toLowerCase() > b.title.toLowerCase()
+          ? valueOfSearch
+          : -valueOfSearch;
+      });
     },
 
-    nextPage() {
-      this.pageCount++;
-    },
-    prevPage() {
-      this.pageCount--;
+    pageMove(value) {
+      value === "+" ? this.pageCount++ : this.pageCount--;
     }
   },
 
@@ -103,10 +101,9 @@ export default {
       const pageStart = this.pageCount * this.sizeOfPage;
       const pageEnd = pageStart + this.sizeOfPage;
       return listPaginat.slice(pageStart, pageEnd);
-      return listPaginat;
     },
     numbeOfPages() {
-      return Math.floor(this.movies.length / this.sizeOfPage);
+      return Math.ceil(this.movies.length / this.sizeOfPage);
     }
   }
 };
