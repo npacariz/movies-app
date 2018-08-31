@@ -21,13 +21,6 @@ export default {
     }
   },
 
-  beforeRouteEnter(to, from, next) {
-    movies.getAll().then(response => {
-      next(vm => {
-        vm.movies = response.data;
-      });
-    });
-  },
 
   methods: {
     select() {
