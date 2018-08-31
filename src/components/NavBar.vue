@@ -6,10 +6,11 @@
             <router-link class="navbar-brand" :to="{name: 'movies'}">Movies</router-link >
             <router-link class="navbar-brand" :to="{name: 'add-movie'}">Add Movies</router-link >
           </div>
-      
+          <div>
             <router-link class="navbar-brand" :to="{name: 'login'}">Login</router-link>
+            <router-link class="navbar-brand" :to="{name: 'register'}">Register</router-link>
             <button class="navbar-brand" @click="logout()" >Logut</button>
-  
+          </div>
         </div>     
             
     </nav>
