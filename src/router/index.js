@@ -4,6 +4,7 @@ import AppMovies from "../pages/AppMovies.vue";
 import AddMovie from "../pages/AddMovie.vue";
 import Login from "../pages/Login.vue";
 import AppRegister from "../pages/AppRegister.vue";
+import SingleMovie from "../pages/SingleMovie.vue";
 
 Vue.use(VueRouter);
 
@@ -20,18 +21,23 @@ const routes = [
   {
     path: "/add",
     component: AddMovie,
-     name: "add-movie"
+    name: "add-movie"
   },
   {
     path: "/login",
     component: Login,
-     name: "login"
+    name: "login"
   },
   {
     path: "/register",
     component: AppRegister,
-     name: "register"
+    name: "register"
   },
+  {
+    path: "/movie/:id",
+    component: SingleMovie,
+    name: "movie"
+  }
 ];
 
 const router = new VueRouter({

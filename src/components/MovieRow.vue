@@ -1,7 +1,7 @@
 <template>
   <div id="MovieRow">
        <div class='movie-card'>
-        <router-link :to="{name: 'movie', params:{id: movie.id}}" ><h5>Title: <h3>{{movie.title}}</h3></h5> </router-link>
+        <h5>Title: <router-link :to="{name: 'movie', params:{id: movie.id}}" ><h3>{{movie.title}}</h3> </router-link></h5>
         <p>Director: {{movie.director}}</p>
         <img :src="movie.imageUrl" alt="Image">
         <p>Release date: {{movie.releaseDate}}</p>
