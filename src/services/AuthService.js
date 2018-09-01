@@ -23,7 +23,7 @@ export default class AuthService {
     delete axios.defaults.headers.common["Authorization"];
   }
   isAuthenticated() {
-    return !!window.localStorage.getItem("loginToken");
+    return !!window.localStorage.getItem("token");
   }
   addUser(newUser) {
     return axios.post("auth/register", newUser);

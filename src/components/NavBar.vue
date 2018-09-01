@@ -7,9 +7,13 @@
             <router-link class="navbar-brand" :to="{name: 'add-movie'}">Add Movies</router-link >
           </div>
           <div>
-            <router-link class="navbar-brand" :to="{name: 'login'}">Login</router-link>
-            <router-link class="navbar-brand" :to="{name: 'register'}">Register</router-link>
-            <button class="navbar-brand" @click="logout()" >Logut</button>
+            <div v-if="!isAuthenticated">
+              <router-link class="navbar-brand" :to="{name: 'login'}">Login</router-link>
+              <router-link class="navbar-brand" :to="{name: 'register'}">Register</router-link>
+            </div>
+            <div v-else>
+                <button class="navbar-brand" @click="singout()" >Logut</button>
+            </div>
           </div>
         </div>     
             
@@ -18,25 +22,23 @@
 </template>
 
 <script>
-import { auth } from '../services/AuthService'
+import { auth } from "../services/AuthService";
 
 export default {
   name: "NavBar",
 
   data() {
-    return{
-      isAuthenticated: auth.isAuthenticated()
-    }
+    return {
+      isAuthenticated: true
+    };
   },
+
   methods: {
-    logout(){
-        auth.logout();
-        this.isAuthenticated = false;
-        this.$router.push({name: 'login'})
-        
-       
+    singout() {
+      auth.logout();
+      this.isAuthenticated = false;
+      this.$router.push("/login");
     }
-    
   }
 };
 </script>

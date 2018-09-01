@@ -5,42 +5,68 @@ import AddMovie from "../pages/AddMovie.vue";
 import Login from "../pages/Login.vue";
 import AppRegister from "../pages/AppRegister.vue";
 import SingleMovie from "../pages/SingleMovie.vue";
+import { auth } from "../services/AuthService";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/movies",
-    name: "movies",
-    component: AppMovies
+    path: "/",
+    redirect: { name: "movies" },
+    meta: { requiresAuth: true }
   },
   {
-    path: "/",
-    redirect: { name: "movies" }
+    path: "/movies",
+    name: "movies",
+    component: AppMovies,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/movie/{id}",
+    component: SingleMovie,
+    name: "movie",
+    meta: { requiresAuth: true }
   },
   {
     path: "/add",
     component: AddMovie,
-    name: "add-movie"
+    name: "add-movie",
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
     component: Login,
-    name: "login"
+    name: "login",
+    meta: { Guest: true }
   },
   {
     path: "/register",
     component: AppRegister,
-    name: "register"
-  },
-  {
-    path: "/movie/:id",
-    component: SingleMovie,
-    name: "movie"
+    name: "register",
+    meta: { Guest: true }
   }
 ];
 
 const router = new VueRouter({
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (auth.isAuthenticated()) {
+      return next();
+    } else {
+      return next({ name: "login" });
+    }
+  }
+  if (to.meta.Guest) {
+    if (auth.isAuthenticated()) {
+      return next(false);
+    } else {
+      return next();
+    }
+  }
+  next();
+});
+
 export default router;
