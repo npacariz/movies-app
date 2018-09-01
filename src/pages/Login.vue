@@ -16,6 +16,7 @@
 
 <script>
 import { auth } from "../services/AuthService";
+import { bus } from "../main";
 export default {
   name: "Login",
   data() {
@@ -29,6 +30,7 @@ export default {
     login() {
       auth.login(this.email, this.password).then(() => {
         this.$router.push({ name: "movies" });
+        bus.$emit("changeStatus", "true");
       });
     }
   }

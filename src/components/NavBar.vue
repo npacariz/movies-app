@@ -23,16 +23,21 @@
 
 <script>
 import { auth } from "../services/AuthService";
+import { bus } from "../main";
 
 export default {
   name: "NavBar",
 
   data() {
     return {
-      isAuthenticated: true
+      isAuthenticated: auth.isAuthenticated()
     };
   },
-
+  created() {
+    bus.$on("changeStatus", data => {
+      this.isAuthenticated = data;
+    });
+  },
   methods: {
     singout() {
       auth.logout();
