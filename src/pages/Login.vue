@@ -15,22 +15,23 @@
 </template>
 
 <script>
-import { auth } from '../services/AuthService'
+import { auth } from "../services/AuthService";
 export default {
   name: "Login",
-    data() {
-        return {
-           email: '',
-            password: ''
-        }
-    },
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
 
-    methods: {
-        login() {
-            auth.login(this.email, this.password)
-            this.$router.push({name: 'movies'})
-        }
+  methods: {
+    login() {
+      auth.login(this.email, this.password).then(() => {
+        this.$router.push({ name: "movies" });
+      });
     }
+  }
 };
 </script>
 
