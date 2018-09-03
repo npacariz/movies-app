@@ -43,7 +43,7 @@ export default {
       search: "",
       selectd: false,
       pageCount: 0,
-      sizeOfPage: 3
+      sizeOfPage: 10
     };
   },
   beforeRouteEnter(to, from, next) {

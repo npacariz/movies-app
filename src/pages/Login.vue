@@ -1,6 +1,7 @@
 <template>
   <div id="Login">
     <form @submit.prevent="login()">
+       <p class="alert alert-danger" role="alert" v-if="error">Bad credential!!</p>
         <div class="form-group">
             <label for="email">Email address:</label>
             <input type="email" class="form-control" id="email" v-model="email">
@@ -22,7 +23,8 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      error: null
     };
   },
 
@@ -31,6 +33,10 @@ export default {
       auth.login(this.email, this.password).then(() => {
         this.$router.push({ name: "movies" });
         bus.$emit("changeStatus", "true");
+        error = ''
+      })
+      .catch(error => {
+        this.error = error.response.data.error
       });
     }
   }

@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="title">Username:</label>
                 <input type="text" class="form-control" id="title" v-model="newUser.username">
-                <p class="alert alert-danger" role="alert" v-if="errors.username">{{errors.username[0]}}</p>
+                <p class="alert alert-danger" role="alert" v-if="errors.username  != null">{{errors.username[0]}}</p>
             </div>
              <div class="form-group">
                 <label for="title">Email:</label>
