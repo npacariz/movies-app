@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" class="form-control" id="title" v-model="newMovie.title">
-                <p class="alert alert-danger" role="alert" v-if="errors.title  != null">{{errors.title[0]}}</p>
+                <p class="alert alert-danger" role="alert" v-if="errors.title">{{errors.title[0]}}</p>
             </div>
             <div class="form-group">
                 <label for="director">Director:</label>
@@ -12,8 +12,8 @@
                 <p class="alert alert-danger" role="alert" v-if="errors.director">{{errors.director[0]}}</p>
             </div>
              <div class="form-group">
-                <label for="imageUrl">Image Url:</label>
-                <input type="text" class="form-control" id="imageUrl" v-model="newMovie.imageUrl">
+                <label for="imageUrl">Image Url:</label>title
+                <input type="text" class="form-control" titleodel="newMovie.imageUrl">
                 <p class="alert alert-danger" role="alert" v-if="errors.imageUrl">{{errors.imageUrl[0]}}</p>
             </div>
              <div class="form-group">
@@ -43,27 +43,27 @@ export default {
   name: "AddMovie",
 
   data() {
-      return {
-          newMovie: {},
-          errors: {},
-          success: false
-      }
+    return {
+      newMovie: {},
+      errors: {},
+      success: false
+    };
   },
 
   methods: {
-      addNewMovie() {
-          movies.add(this.newMovie)
-          .then(() => {
-              this.$router.push({name:'movies'})
-          })
-          .catch((error) => {
-              this.errors = error.response.data.errors;
-
-          })
-      }
+    addNewMovie() {
+      this.errors = {};
+      movies
+        .add(this.newMovie)
+        .then(() => {
+          this.$router.push({ name: "movies" });
+        })
+        .catch(error => {
+          this.errors = error.response.data.errors;
+        });
+    }
   }
 };
-
 </script>
 
 <style>

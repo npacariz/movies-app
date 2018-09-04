@@ -30,14 +30,16 @@ export default {
 
   methods: {
     login() {
-      auth.login(this.email, this.password).then(() => {
-        this.$router.push({ name: "movies" });
-        bus.$emit("changeStatus", "true");
-        error = ''
-      })
-      .catch(error => {
-        this.error = error.response.data.error
-      });
+      auth
+        .login(this.email, this.password)
+        .then(() => {
+          this.$router.push({ name: "movies" });
+          bus.$emit("changeStatus", "true");
+          this.error = null;
+        })
+        .catch(error => {
+          this.error = error.response.data.error;
+        });
     }
   }
 };

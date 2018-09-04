@@ -52,7 +52,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
   if (to.meta.requiresAuth) {
     if (auth.isAuthenticated()) {
       return next();
@@ -61,7 +60,6 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (to.meta.Guest) {
-
     if (auth.isAuthenticated()) {
       return next(false);
     } else {
